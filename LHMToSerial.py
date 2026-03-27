@@ -22,6 +22,7 @@ import threading
 from pystray import MenuItem as item
 import pystray
 from PIL import Image
+import settings_manager
 
 try:
     from pythonnet import load
@@ -46,7 +47,6 @@ except Exception as e:
 
 # --- CONFIGURATION ---
 BAUDRATE = 115200
-POLL_INTERVAL = 1.0 # 1.0 seconds
 
 # --- GLOBAL STOP EVENT ---
 stop_event = threading.Event()
@@ -226,8 +226,8 @@ def run_serial_monitor(icon):
             
             ser.write(data_string.encode('utf-8'))
             
-            # Simple sleep for POLLING
-            stop_event.wait(POLL_INTERVAL)
+            # Dynamic sleep for POLLING based on user tray settings
+            stop_event.wait(settings_manager.get_refresh_rate())
             
         except Exception as e:
             print(f"Loop error: {e}")
@@ -262,7 +262,7 @@ def resource_path(relative_path):
 if __name__ == "__main__":
     try:
         image = Image.open(resource_path("icon.ico"))
-        menu = (item('Exit', exit_action),)
+        menu = settings_manager.get_menu_items(exit_action)
         icon = pystray.Icon("ESP32 Hardware Monitor", image, "ESP32 Hardware Monitor", menu)
         icon.run(setup)
     except FileNotFoundError:
@@ -273,7 +273,7 @@ if __name__ == "__main__":
         print("Running in console fallback due to missing icon...")
         # create a dummy image to not completely crash, or just don't use pystray
         dummy_image = Image.new('RGB', (64, 64), (255, 255, 255))
-        menu = (item('Exit', exit_action),)
+        menu = settings_manager.get_menu_items(exit_action)
         icon = pystray.Icon("ESP32 Hardware Monitor", dummy_image, "ESP32 Hardware Monitor", menu)
         icon.run(setup)
     except Exception as e:
