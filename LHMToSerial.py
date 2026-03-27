@@ -138,6 +138,9 @@ class HardwareMonitor:
                     elif sensor.SensorType == SensorType.Clock:
                         if "core" in name:
                             data['gpu_clock'] = max(data['gpu_clock'], int(sensor.Value))
+                    elif sensor.SensorType == SensorType.Factor:
+                        if "fps" in name:
+                            data['fps'] = max(data['fps'], int(sensor.Value))
                     elif sensor.SensorType == SensorType.SmallData and "memory used" in name:
                         # VRAM in MB
                         data['vram_used'] = int(sensor.Value)
@@ -260,7 +263,7 @@ if __name__ == "__main__":
     try:
         image = Image.open(resource_path("icon.ico"))
         menu = (item('Exit', exit_action),)
-        icon = pystray.Icon("LHM to Serial", image, "LHM to Serial NC", menu)
+        icon = pystray.Icon("ESP32 Hardware Monitor", image, "ESP32 Hardware Monitor", menu)
         icon.run(setup)
     except FileNotFoundError:
         print("Error: icon.ico not found. Please create an icon file.")
@@ -271,7 +274,7 @@ if __name__ == "__main__":
         # create a dummy image to not completely crash, or just don't use pystray
         dummy_image = Image.new('RGB', (64, 64), (255, 255, 255))
         menu = (item('Exit', exit_action),)
-        icon = pystray.Icon("LHM to Serial", dummy_image, "LHM to Serial NC", menu)
+        icon = pystray.Icon("ESP32 Hardware Monitor", dummy_image, "ESP32 Hardware Monitor", menu)
         icon.run(setup)
     except Exception as e:
         print(f"An error occurred: {e}")
