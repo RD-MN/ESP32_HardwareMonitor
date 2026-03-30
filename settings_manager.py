@@ -95,6 +95,17 @@ def is_rate_checked(rate):
         return get_refresh_rate() == rate
     return check
 
+# --- CONFIGURATOR ---
+def open_configurator(icon, item):
+    exe_path = get_exe_path()
+    try:
+        if getattr(sys, 'frozen', False):
+            subprocess.Popen([exe_path, "--config"])
+        else:
+            subprocess.Popen([sys.executable, exe_path, "--config"])
+    except Exception as e:
+        print(f"Error opening config: {e}")
+
 # --- MENU GENERATOR ---
 def get_menu_items(exit_action):
     # Available refresh rates (in seconds)
@@ -109,6 +120,7 @@ def get_menu_items(exit_action):
         
     return Menu(
         MenuItem("Refresh Rate", Menu(*rate_items)),
+        MenuItem("Open Data Configurator", open_configurator),
         MenuItem("Run at Startup", toggle_startup, checked=lambda item: is_startup_enabled()),
         MenuItem("Exit", exit_action)
     )

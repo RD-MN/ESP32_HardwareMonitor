@@ -1,0 +1,30 @@
+{
+    "poll_interval": 1.0,
+    "run_on_startup": false,
+    "mappings": {
+        "slot1": {
+            "source": "cpu_rpm",
+            "format": "{} RPM"
+        },
+        "slot2": {
+            "source": "gpu_rpm",
+            "format": "{} RPM"
+        },
+        "slot3": {
+            "source": "ram_used",
+            "format": "Ram: {} mb"
+        },
+        "slot4": {
+            "source": "gpu_clock",
+            "format": "Clock: {} MHz"
+        },
+        "slot5": {
+            "source": "vram_used",
+            "format": "VRam: {} mb"
+        },
+        "slot6": {
+            "source": "wi-fi_download_speed",
+            "format": "Wifi: {} KB/S"
+        }
+    }
+}

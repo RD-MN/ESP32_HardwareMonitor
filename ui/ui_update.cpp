@@ -6,24 +6,32 @@
 
 // Global variables for sensor metrics
 float cpu_temp = 0, gpu_temp = 0;
-int cpu_percent = 0, gpu_percent = 0, cpu_rpm = 0, gpu_rpm = 0, case_rpm = 0,
-    cpu_watt = 0, gpu_watt = 0, gpu_clock = 0, vram_used = 0, ram_used = 0, fps = 0;
+int cpu_percent = 0, gpu_percent = 0, cpu_watt = 0, gpu_watt = 0, fps = 0;
+
+// Text buffers for configurable slots
+char slot1_text[32] = "";
+char slot2_text[32] = "";
+char slot3_text[32] = "";
+char slot4_text[32] = "";
+char slot5_text[32] = "";
+char slot6_text[32] = "";
 
 /**
- * @brief Reads a comma-separated string of values from the serial port 
+ * @brief Reads a delimited string of values from the serial port 
  *        and updates the global metric variables.
  */
 bool read_serial_data() {
     if (Serial.available() > 0) {
         String line = Serial.readStringUntil('\n');
 
-        int items_parsed = sscanf(line.c_str(), "%d,%d,%d,%f,%d,%d,%d,%d,%f,%d,%d,%d,%d,%d,%d",
+        // Parse: TIME|CPU%|CPUT|CPUW|GPU%|GPUT|GPUW|FPS|SLOT1|SLOT2|SLOT3|SLOT4|SLOT5|SLOT6
+        int items_parsed = sscanf(line.c_str(), "%d:%d|%d|%f|%d|%d|%f|%d|%d|%31[^|]|%31[^|]|%31[^|]|%31[^|]|%31[^|]|%31[^\n]",
                                   &clock_hours, &clock_minutes, // Time
-                                  &cpu_percent, &cpu_temp, &cpu_rpm, &case_rpm, &cpu_watt,
-                                  &gpu_percent, &gpu_temp, &gpu_rpm, &gpu_watt,
-                                  &gpu_clock, &vram_used, &ram_used, &fps);
+                                  &cpu_percent, &cpu_temp, &cpu_watt,
+                                  &gpu_percent, &gpu_temp, &gpu_watt, &fps,
+                                  slot1_text, slot2_text, slot3_text, slot4_text, slot5_text, slot6_text);
 
-        if (items_parsed == 15) { // Expect 15 items now
+        if (items_parsed == 15) { // Expect 15 items
             return true; // Successfully parsed
         } else {
             return false; // Handle parsing errors
@@ -53,12 +61,15 @@ void update_ui_elements() {
     dtostrf(gpu_temp, 4, 1, temp_buf);
     strcat(temp_buf, "°C");
     lv_label_set_text(ui_tempgpu, temp_buf);
-    lv_label_set_text_fmt(ui_FanCpu, "%d RPM", cpu_rpm);
-    lv_label_set_text_fmt(ui_FanCpu1, "%d RPM", gpu_rpm);
-    lv_label_set_text_fmt(ui_FanCase, "Case: %d RPM", case_rpm);
-    lv_label_set_text_fmt(ui_RamUsage, "Ram: %d mb", ram_used);
-    lv_label_set_text_fmt(ui_VramUsage, "VRam: %d mb", vram_used);
-    lv_label_set_text_fmt(ui_GpuClock, "Clock: %d MHz", gpu_clock);
+    
+    // The fully customizable text slots natively injected from Python
+    lv_label_set_text(ui_FanCpu, slot1_text);
+    lv_label_set_text(ui_FanCpu1, slot2_text);
+    lv_label_set_text(ui_RamUsage, slot3_text);
+    lv_label_set_text(ui_GpuClock, slot4_text);
+    lv_label_set_text(ui_VramUsage, slot5_text);
+    lv_label_set_text(ui_FanCase, slot6_text);
+    
     lv_label_set_text_fmt(ui_CPUW, "%d W", cpu_watt);
     lv_label_set_text_fmt(ui_GPUW1, "%d W", gpu_watt);
 
