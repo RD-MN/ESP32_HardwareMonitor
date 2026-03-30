@@ -23,8 +23,8 @@
             "format": "VRam: {} mb"
         },
         "slot6": {
-            "source": "wi-fi_download_speed",
-            "format": "Wifi: {} KB/S"
+            "source": "case_rpm",
+            "format": "Case: {} RPM"
         }
     }
 }

@@ -102,18 +102,13 @@ class HardwareMonitor:
                         sname = sensor.Name.lower().replace(" ", "_").replace("-", "_")
                         val = sensor.Value
                         
-                        if "upload" in sname: 
-                            sname = "upload_speed"
-                            val = val / 1048576.0 # Convert Bytes/s to MB/s
-                        elif "download" in sname: 
-                            sname = "download_speed"
-                            val = val / 1048576.0 # Convert Bytes/s to MB/s
-                        elif "utilization" in sname: 
-                            sname = "network_utilization"
+                        if "upload" in sname: sname = "upload_speed"
+                        elif "download" in sname: sname = "download_speed"
+                        elif "utilization" in sname: sname = "network_utilization"
                         else: continue
                         
                         key = f"{prefix}_{sname}"
-                        all_sensors[key] = max(all_sensors.get(key, 0), val)
+                        all_sensors[key] = max(all_sensors.get(key, 0), sensor.Value)
                         
                 continue # Skip generic processing for this hardware
             
@@ -289,11 +284,8 @@ def run_serial_monitor(icon):
                 val = ""
                 if src != "STATIC_TEXT":
                     val = all_sensors.get(src, 0)
-                    if isinstance(val, float): 
-                        if val.is_integer():
-                            val = int(val)
-                        else:
-                            val = round(val, 1)
+                    
+                    if isinstance(val, float): val = int(val) # keep interface clean
                     
                 if "{}" in fmt:
                     slot_str = fmt.replace("{}", str(val))
