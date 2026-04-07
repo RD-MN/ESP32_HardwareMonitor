@@ -32,7 +32,7 @@ Before you begin, ensure you have the following installed and set up:
 - **Software Dependencies:**
   - [Arduino IDE](https://www.arduino.cc/en/software) (for compiling/uploading ESP32 code).
   - Python 3.13 or older (if running from source).
-  - ESP32 Board Manager installed in your Arduino IDE.
+  - ESP32 Board Manager installed in Arduino IDE.
 
 ## 📂 Installation & Setup
 
@@ -47,20 +47,26 @@ Due to the varying pinout configurations across different ESP32 development boar
 5. Click **Upload** to compile and flash the firmware.
 
 ### 2. Software Setup (Windows)
-You can run the application directly from the executable or build it yourself from the source.
+You can install the application using the user-friendly setup wizard, run it as a portable executable, or build it yourself from the source.
 
-**Option A: Using the Executable (Recommended)**
-1. Download `ESP32 Hardware Monitor.exe` from the latest **Releases** tab on GitHub (or run it from the `Software\ESP32 HWM` directory).
-2. Run `ESP32 Hardware Monitor.exe`. 
+**Option A: Using the Installer (Recommended)**
+1. Download `ESP32_Hardware_Monitor_Setup.exe` from the latest **Releases** tab on GitHub (or run it from the `Software\Installer Output` directory).
+2. Run the installer to choose your installation location and automatically create desktop shortcuts.
+3. Launch the application from your Desktop or Start Menu.
    > **Note:** It will request Administrator privileges once to securely interface with the `PawnIO` kernel proxy driver needed for AMD/Intel thermal mapping.
 
-**Option B: Building from Source**
+**Option B: Using the Portable Executable**
+1. Download `ESP32 Hardware Monitor.exe` from the latest **Releases** tab on GitHub (or run it from the `Software\ESP32 HWM` directory).
+2. Run `ESP32 Hardware Monitor.exe`. 
+   > **Note:** It will request Administrator privileges once, similarly to the installer.
+
+**Option C: Building from Source**
 1. Clone this repository to your local machine:
    ```bash
    git clone https://github.com/RD-MN/ESP32_HardwareMonitor.git
    ```
 2. Run `Software\BuildExec.bat`. This script will seamlessly compile the Python source code (`LHMToSerial.py`) into a standalone `ESP32 Hardware Monitor.exe` using PyInstaller.
-3. Run the newly created executable located in the `Software\ESP32 HWM` directory.
+3. *(Optional)* Run `Software\BuildInstaller.bat` to package the executable into a setup wizard (requires [Inno Setup 6](https://jrsoftware.org/isinfo.php)).
 
 ## 🚀 Usage
 
