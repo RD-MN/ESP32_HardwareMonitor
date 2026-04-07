@@ -8,8 +8,8 @@ cd /d "%~dp0"
 
 echo.
 echo [1/3] Checking environment and dependencies...
-if exist "env\Scripts\python.exe" (
-    set "PYTHON_CMD=env\Scripts\python.exe"
+if exist "..\env\Scripts\python.exe" (
+    set "PYTHON_CMD=..\env\Scripts\python.exe"
     echo Using isolated Virtual Environment Python
 ) else (
     set "PYTHON_CMD=python"
@@ -39,7 +39,7 @@ if exist "icon.ico" (
 )
 
 REM We add the entire LHM directory into the payload
-set ASSETS=--add-data "%~dp0LHM;LHM" %ICON_DATA%
+set ASSETS=--add-data "%~dp0..\LHM;LHM" %ICON_DATA%
 
 REM Hidden imports to ensure nothing is missed (especially for plugins/system tray)
 set HIDDEN_IMPORTS=--hidden-import serial.tools.list_ports --hidden-import pystray._win32

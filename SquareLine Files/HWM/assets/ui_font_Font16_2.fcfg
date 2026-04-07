@@ -1,0 +1,16 @@
+{
+  "codename": "Font16_2",
+  "ttf_path": "/assets/SacrificeDemo-8Ox1B.ttf",
+  "bin_path": "/assets\\ui_font_Font16_2.bin",
+  "c_path": "/assets\\ui_font_Font16_2.c",
+  "cfg_path": "/assets\\ui_font_Font16_2.fcfg",
+  "size": 22,
+  "bpp": 4,
+  "letters": 3,
+  "ranges": [
+    "0x20-0xff"
+  ],
+  "symbols": "",
+  "customparams": "--no-compress --no-prefilter",
+  "uploaded": false
+}

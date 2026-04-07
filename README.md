@@ -17,7 +17,8 @@ This project seamlessly bridges your PC hardware sensors with your external ESP3
 
 ## ✨ Features
 
-- **Zero-GUI Windows Agent:** A silent, system-tray application that reads real-time metrics natively via the LibreHardwareMonitor API—no bulky windows required.
+- **Unobtrusive Windows Agent:** A silent, system-tray application that reads real-time metrics natively via the LibreHardwareMonitor API.
+- **Dynamic Sensor Mapping:** Includes a built-in GUI Configurator—accessible from the system tray—allowing you to map any hardware sensor (CPU, GPU, RAM, Network, Fans, etc.) to your ESP32 display slots.
 - **Deep Hardware Integration:** Analyzes and captures MSR data from CPU temp, package wattage, to DirectX fullscreen framerates using advanced dynamic hooks.
 - **Intelligent Auto-Config:** Instantly scans and latches onto the target Arduino COM Port automatically. No manual serial port configuration needed!
 - **Sleek Graphics & UI:** A beautiful, responsive TFT interface mapped out via SquareLine Studio, powered by the industry-standard LVGL graphics engine.
@@ -47,7 +48,7 @@ There are two ways to flash your ESP32 board:
 
 **Option B: Compile and Flash (For Developers)**
 1. Open the Arduino IDE.
-2. Load the `.ino` firmware located in the hardware/libraries folder.
+2. Load the `.ino` firmware located in the `Arduino Files/ESP32` folder.
 3. Select your specific ESP32 board and COM port.
 4. Click **Upload** to compile and flash the firmware.
 
@@ -55,8 +56,8 @@ There are two ways to flash your ESP32 board:
 You can run the application directly from the executable or build it yourself from the source.
 
 **Option A: Using the Executable (Recommended)**
-1. Download `LHMToSerial.exe` from the latest **Releases** tab on GitHub (or run it from the `Compiled` directory).
-2. Run `LHMToSerial.exe`. 
+1. Download `ESP32 Hardware Monitor.exe` from the latest **Releases** tab on GitHub (or run it from the `Software\ESP32 HWM` directory).
+2. Run `ESP32 Hardware Monitor.exe`. 
    > **Note:** It will request Administrator privileges once to securely interface with the `PawnIO` kernel proxy driver needed for AMD/Intel thermal mapping.
 
 **Option B: Building from Source**
@@ -64,8 +65,8 @@ You can run the application directly from the executable or build it yourself fr
    ```bash
    git clone https://github.com/yourusername/ESP32_HardwareMonitor.git
    ```
-2. Run `BuildExec.bat`. This script will seamlessly compile the Python source code (`LHMToSerial.py`) into a standalone `.exe` using PyInstaller.
-3. Run the newly created executable.
+2. Run `Software\BuildExec.bat`. This script will seamlessly compile the Python source code (`LHMToSerial.py`) into a standalone `ESP32 Hardware Monitor.exe` using PyInstaller.
+3. Run the newly created executable located in the `Software\ESP32 HWM` directory.
 
 ## 🚀 Usage
 
@@ -73,7 +74,8 @@ Once the hardware is flashed and the Windows agent is running:
 1. Connect your ESP32 to your PC via USB.
 2. The Windows application will automatically detect the ESP32 and begin transmitting data.
 3. **System Tray Integration:** Look for the ESP32 Hardware Monitor icon in your Windows Taskbar tray (hidden icons).
-4. **Right-click the icon** to:
+4. **Right-click the icon** to access key features:
+   - **Open ESP32HWM Settings**: Launch the built-in Configurator App to customize your display, easily selecting which hardware sensors appear on your 6 screen slots.
    - Adjust the **Refresh Rates**.
    - Enable/Disable **Run on Startup** for a seamless, invisible boot experience.
 

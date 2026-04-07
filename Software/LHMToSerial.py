@@ -28,7 +28,11 @@ try:
     from pythonnet import load
     # Add LibreHardwareMonitorLib.dll via coreclr
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    lhm_dir = os.path.join(script_dir, "LHM")
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.dirname(script_dir)
+    lhm_dir = os.path.join(base_path, "LHM")
     
     # Change working directory so LHM's dependent DLLs load correctly
     os.chdir(lhm_dir)

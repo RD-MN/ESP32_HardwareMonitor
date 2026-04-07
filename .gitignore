@@ -6,3 +6,5 @@ env/
 ui/build
 config.json
 ESP32 HWM/
+Software/__pycache__/
+Software/ESP32 HWM

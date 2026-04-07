@@ -167,8 +167,12 @@ class ConfigApp:
         ttk.Button(btn_frame, text="✅ Save & Apply", command=self.save_config, style="Accent.TButton", width=18).pack(side=tk.RIGHT, padx=10)
         
     def open_lhm(self):
-        import os, subprocess, settings_manager
-        lhm_exe = os.path.join(settings_manager.get_exe_dir(), "LHM", "LibreHardwareMonitor.exe")
+        import os, sys, subprocess
+        try:
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        lhm_exe = os.path.join(base_path, "LHM", "LibreHardwareMonitor.exe")
         try:
             subprocess.Popen([lhm_exe])
         except Exception as e:

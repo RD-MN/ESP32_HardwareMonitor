@@ -1,0 +1,69 @@
+{
+  "deftheme": {
+    "name": "Default",
+    "properties": [
+      {
+        "nid": 1000234,
+        "strtype": "THEME_COLOR",
+        "strval": "CPUGPU",
+        "intarray": [
+          0,
+          160,
+          255,
+          255
+        ],
+        "InheritedType": 0
+      },
+      {
+        "nid": 1000260,
+        "strtype": "THEME_COLOR",
+        "strval": "Text",
+        "intarray": [
+          0,
+          255,
+          23,
+          255
+        ],
+        "InheritedType": 0
+      },
+      {
+        "nid": 1000261,
+        "strtype": "THEME_COLOR",
+        "strval": "Warn",
+        "intarray": [
+          255,
+          125,
+          0,
+          255
+        ],
+        "InheritedType": 0
+      },
+      {
+        "nid": 1000262,
+        "strtype": "THEME_COLOR",
+        "strval": "Crit",
+        "intarray": [
+          255,
+          0,
+          0,
+          255
+        ],
+        "InheritedType": 0
+      },
+      {
+        "nid": 1000263,
+        "strtype": "THEME_COLOR",
+        "strval": "gray",
+        "intarray": [
+          81,
+          81,
+          81,
+          255
+        ],
+        "InheritedType": 0
+      }
+    ]
+  },
+  "themes": [],
+  "selected_theme": "Default"
+}

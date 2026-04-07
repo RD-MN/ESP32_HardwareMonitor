@@ -1,0 +1,16 @@
+{
+  "codename": "Clock",
+  "ttf_path": "/assets/stocky.ttf",
+  "bin_path": "/assets\\ui_font_Clock.bin",
+  "c_path": "/assets\\ui_font_Clock.c",
+  "cfg_path": "/assets\\ui_font_Clock.fcfg",
+  "size": 35,
+  "bpp": 4,
+  "letters": 3,
+  "ranges": [
+    "0x20-0xff"
+  ],
+  "symbols": "",
+  "customparams": "--no-compress --no-prefilter",
+  "uploaded": false
+}
