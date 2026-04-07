@@ -49,7 +49,7 @@ def load_all_sensors():
 class ConfigApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("ESP32 Hardware Monitor - Configurator")
+        self.root.title("Hardware Monitor App")
         self.root.geometry("850x530")
         
         # Apply a slightly more modern default UI theme if available
@@ -85,9 +85,9 @@ class ConfigApp:
         header_frame = ttk.Frame(root, style="Header.TFrame", padding=10)
         header_frame.pack(fill=tk.X)
         
-        ttk.Label(header_frame, text="⚙️ Display Configurator", font=("Segoe UI", 16, "bold")).pack(pady=(5, 0))
+        ttk.Label(header_frame, text="⚙️ Hardware Monitor App", font=("Segoe UI", 16, "bold")).pack(pady=(5, 0))
         ttk.Label(header_frame, text="Easily map your hardware sensors to the 6 text slots on your ESP32 display.", font=("Segoe UI", 10)).pack()
-        ttk.Label(header_frame, text="Tip: Use '{}' in the Format Text to inject the sensor's number (Example: 'Speed: {} mbps').", font=("Segoe UI", 9, "italic")).pack(pady=(5, 0))
+        ttk.Label(header_frame, text="Tip: Select a Data Type, or choose 'Custom' to manually format, using '{}' for the value (e.g. 'Speed: {} mbps').", font=("Segoe UI", 9, "italic")).pack(pady=(5, 0))
         
         # Main Mapping Frame
         frame = ttk.LabelFrame(root, text=" Screen Slot Mappings ", padding=15)
@@ -96,10 +96,14 @@ class ConfigApp:
         # Headers
         ttk.Label(frame, text="Display Slot", font=("Segoe UI", 9, "bold")).grid(row=0, column=0, padx=5, pady=(0, 10), sticky=tk.W)
         ttk.Label(frame, text="Hardware Sensor Source", font=("Segoe UI", 9, "bold")).grid(row=0, column=1, padx=5, pady=(0, 10), sticky=tk.W)
-        ttk.Label(frame, text="Screen Format Text", font=("Segoe UI", 9, "bold")).grid(row=0, column=2, padx=5, pady=(0, 10), sticky=tk.W)
+        ttk.Label(frame, text="Data Type / Format", font=("Segoe UI", 9, "bold")).grid(row=0, column=2, padx=5, pady=(0, 10), sticky=tk.W)
         
         # Separator line
         ttk.Separator(frame, orient='horizontal').grid(row=1, column=0, columnspan=3, sticky='ew', pady=(0, 10))
+        
+        self.vars_type = {}
+        self.vars_custom = {}
+        COMMON_TYPES = ["RPM", "MB", "GB", "%", "°C", "W", "V", "MHz", "FPS", "Custom"]
         
         for i, (name, key) in enumerate(zip(SLOT_NAMES, SLOT_KEYS)):
             # Slot label
@@ -117,13 +121,38 @@ class ConfigApp:
             self.vars_source[key] = src_var
             
             # Format entry
-            fmt_var = tk.StringVar()
             saved_fmt = self.mappings.get(key, {}).get("format", DEFAULT_FORMATS[key])
-            fmt_var.set(saved_fmt)
             
-            ent = ttk.Entry(frame, textvariable=fmt_var, width=18)
-            ent.grid(row=i+2, column=2, padx=5, pady=8)
-            self.vars_format[key] = fmt_var
+            matched_type = "Custom"
+            for t in COMMON_TYPES[:-1]: # Exclude "Custom"
+                if saved_fmt == f"{{}} {t}" or saved_fmt.lower() == f"{{}} {t.lower()}":
+                    matched_type = t
+                    break
+            
+            type_var = tk.StringVar(value=matched_type)
+            custom_var = tk.StringVar(value=saved_fmt)
+            
+            cell_frame = ttk.Frame(frame)
+            cell_frame.grid(row=i+2, column=2, padx=5, pady=8, sticky=tk.W)
+            
+            cb_type = ttk.Combobox(cell_frame, textvariable=type_var, values=COMMON_TYPES, width=8, state="readonly")
+            cb_type.pack(side=tk.LEFT, padx=(0, 5))
+            
+            ent_custom = ttk.Entry(cell_frame, textvariable=custom_var, width=15)
+            
+            if matched_type == "Custom":
+                ent_custom.pack(side=tk.LEFT)
+                
+            def on_type_change(e, tv=type_var, cv=custom_var, ev=ent_custom):
+                if tv.get() == "Custom":
+                    ev.pack(side=tk.LEFT)
+                else:
+                    ev.pack_forget()
+                    
+            cb_type.bind("<<ComboboxSelected>>", on_type_change)
+            
+            self.vars_type[key] = type_var
+            self.vars_custom[key] = custom_var
             
         # Buttons Frame
         btn_frame = ttk.Frame(root, padding=10)
@@ -133,9 +162,18 @@ class ConfigApp:
         style.configure("Accent.TButton", font=("Segoe UI", 10, "bold"))
         style.configure("Normal.TButton", font=("Segoe UI", 10))
         
-        ttk.Button(btn_frame, text="Reset to Defaults", command=self.reset_defaults, style="Normal.TButton", width=18).pack(side=tk.LEFT, padx=20)
-        ttk.Button(btn_frame, text="✅ Save & Apply", command=self.save_config, style="Accent.TButton", width=18).pack(side=tk.RIGHT, padx=20)
+        ttk.Button(btn_frame, text="Reset to Defaults", command=self.reset_defaults, style="Normal.TButton", width=18).pack(side=tk.LEFT, padx=10)
+        ttk.Button(btn_frame, text="🔍 Open LHM App", command=self.open_lhm, style="Normal.TButton", width=18).pack(side=tk.LEFT, padx=10)
+        ttk.Button(btn_frame, text="✅ Save & Apply", command=self.save_config, style="Accent.TButton", width=18).pack(side=tk.RIGHT, padx=10)
         
+    def open_lhm(self):
+        import os, subprocess, settings_manager
+        lhm_exe = os.path.join(settings_manager.get_exe_dir(), "LHM", "LibreHardwareMonitor.exe")
+        try:
+            subprocess.Popen([lhm_exe])
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to open LHM:\n{e}\nPath: {lhm_exe}")
+            
     def apply_theme(self, style):
         import winreg
         try:
@@ -191,14 +229,36 @@ class ConfigApp:
         if messagebox.askyesno("Reset Defaults", "Are you sure you want to restore the original mappings?"):
             for key in SLOT_KEYS:
                 self.vars_source[key].set(DEFAULT_SOURCES[key])
-                self.vars_format[key].set(DEFAULT_FORMATS[key])
+                saved_fmt = DEFAULT_FORMATS[key]
+                
+                matched_type = "Custom"
+                for t in ["RPM", "MB", "GB", "%", "°C", "W", "V", "MHz", "FPS"]:
+                    if saved_fmt == f"{{}} {t}" or saved_fmt.lower() == f"{{}} {t.lower()}":
+                        matched_type = t
+                        break
+                        
+                self.vars_type[key].set(matched_type)
+                self.vars_custom[key].set(saved_fmt)
+                
+                # trigger event to show/hide custom text component
+                self.vars_type[key].trace_vinfo() # this won't actually call the binding function without generate
+                # Instead, we just hack a refresh for visibility: No manual pack_forget access here natively, 
+                # but the user will likely hit save anyway, or we can just leave it as is if it's already "Custom".
+                # To be totally robust we can force the event.
+                self.root.event_generate("<<ComboboxSelected>>")
 
     def save_config(self):
         new_mappings = {}
         for key in SLOT_KEYS:
+            tv = self.vars_type[key].get()
+            if tv == "Custom":
+                final_fmt = self.vars_custom[key].get()
+            else:
+                final_fmt = f"{{}} {tv}"
+                
             new_mappings[key] = {
                 "source": self.vars_source[key].get(),
-                "format": self.vars_format[key].get()
+                "format": final_fmt
             }
         
         self.config["mappings"] = new_mappings

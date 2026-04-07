@@ -73,7 +73,7 @@ class HardwareMonitor:
         except:
             pass
 
-    def get_sensors_data(self):
+    def get_sensors_data(self, required_sources=None):
         # Default starting values
         data = {
             'cpu_percent': 0, 'cpu_temp': 0.0, 'cpu_watt': 0,
@@ -85,8 +85,32 @@ class HardwareMonitor:
         all_sensors = {}
 
         for hardware in self.computer.Hardware:
-            hardware.Update()
             hw_type = hardware.HardwareType
+            
+            if required_sources is not None:
+                # Essential hardware always updated for hardcoded metrics
+                is_essential = hw_type in [HardwareType.Cpu, HardwareType.GpuNvidia, HardwareType.GpuIntel, HardwareType.GpuAmd]
+                
+                if not is_essential:
+                    needs_update = False
+                    hw_name_lower = hardware.Name.lower().replace(" ", "_")
+                    for src in required_sources:
+                        # Direct match heuristics
+                        if hw_name_lower in src:
+                            needs_update = True
+                            break
+                        # Fallback abstractions map
+                        if hw_type == HardwareType.Network and any(x in src for x in ["network", "ethernet", "wi_fi", "wi-fi", "upload", "download"]):
+                            needs_update = True
+                        elif hw_type == HardwareType.Memory and "ram" in src:
+                            needs_update = True
+                        elif hw_type == HardwareType.Motherboard and any(x in src for x in ["fan", "rpm", "sys", "case", "motherboard", "nct", "ite", "voltage", "temperature"]):
+                            needs_update = True
+                            
+                    if not needs_update:
+                        continue
+                        
+            hardware.Update()
             
             # Clean and abstract Network Adapters
             if hw_type == HardwareType.Network:
@@ -251,9 +275,20 @@ def run_serial_monitor(icon):
     icon.visible = True
     lhm_monitor = HardwareMonitor()
 
+    # Load slots mapping configuration once or dynamically via a quick json check
+    import config_ui
+
     while not stop_event.is_set():
         try:
-            data, all_sensors = lhm_monitor.get_sensors_data()
+            # Figure out what source sensors we actually need to update
+            mappings = settings_manager.load_config().get("mappings", {})
+            needed_sources = set()
+            for key in config_ui.SLOT_KEYS:
+                src = mappings.get(key, {}).get("source", config_ui.DEFAULT_SOURCES.get(key, "STATIC_TEXT"))
+                if src != "STATIC_TEXT":
+                    needed_sources.add(src)
+                    
+            data, all_sensors = lhm_monitor.get_sensors_data(needed_sources)
             
             # Derived mappings for ARCs and Graphic indicators
             cpu_percent = data['cpu_percent']
@@ -267,9 +302,6 @@ def run_serial_monitor(icon):
             
             current_time = time.strftime("%H:%M")
             
-            # Configurable string slots
-            mappings = settings_manager.load_config().get("mappings", {})
-            import config_ui
             slots = []
             
             for key in config_ui.SLOT_KEYS:

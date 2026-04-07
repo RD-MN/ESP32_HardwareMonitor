@@ -1,7 +1,7 @@
 @echo off
-title Build LHMToSerial Executable
+title Build ESP32 Hardware Monitor Executable
 echo ===========================================
-echo Building LHMToSerial Single-File Executable
+echo Building ESP32 Hardware Monitor Single-File Executable
 echo ===========================================
 
 cd /d "%~dp0"
@@ -21,7 +21,7 @@ REM Install PyInstaller and required modules into the environment
 
 echo.
 echo [2/3] Preparing build configurations...
-set OUT_DIR=Compiled
+set OUT_DIR=ESP32 HWM
 if exist "%OUT_DIR%" (
     echo Cleaning old build files...
     rmdir /s /q "%OUT_DIR%"
@@ -46,14 +46,14 @@ set HIDDEN_IMPORTS=--hidden-import serial.tools.list_ports --hidden-import pystr
 
 echo.
 echo [3/3] Compiling Executable Payload...
-%PYTHON_CMD% -m PyInstaller --clean --noconfirm --onefile --windowed --name "LHMToSerial" --distpath "%OUT_DIR%" --workpath "%OUT_DIR%\build" --specpath "%OUT_DIR%" %ICON_ARG% %ASSETS% %HIDDEN_IMPORTS% "LHMToSerial.py"
+%PYTHON_CMD% -m PyInstaller --clean --noconfirm --onefile --windowed --name "ESP32 Hardware Monitor" --distpath "%OUT_DIR%" --workpath "%OUT_DIR%\build" --specpath "%OUT_DIR%" %ICON_ARG% %ASSETS% %HIDDEN_IMPORTS% "LHMToSerial.py"
 
 echo.
 echo ===========================================
-if exist "%OUT_DIR%\LHMToSerial.exe" (
+if exist "%OUT_DIR%\ESP32 Hardware Monitor.exe" (
     echo.
-    echo SUCCESS: 'LHMToSerial.exe' created successfully!
-    echo Location: %~dp0%OUT_DIR%\LHMToSerial.exe
+    echo SUCCESS: 'ESP32 Hardware Monitor.exe' created successfully!
+    echo Location: %~dp0%OUT_DIR%\ESP32 Hardware Monitor.exe
     echo.
 ) else (
     echo ERROR: Build failed. Check the logs above.
