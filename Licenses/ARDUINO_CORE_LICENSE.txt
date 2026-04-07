@@ -1,0 +1,7 @@
+The Arduino Core Packages incorporated within this project's ESP32 compilation are licensed under the GNU Lesser General Public License (LGPL).
+
+The original source code and relevant documentation for the ESP32 Arduino Core can be found at:
+https://github.com/espressif/arduino-esp32
+
+For the full legal text of the LGPL, please visit:
+https://www.gnu.org/licenses/lgpl-3.0.html

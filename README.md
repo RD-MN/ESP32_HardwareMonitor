@@ -38,19 +38,13 @@ Before you begin, ensure you have the following installed and set up:
 
 ### 1. Hardware Firmware (ESP32)
 
-There are two ways to flash your ESP32 board:
+Due to the varying pinout configurations across different ESP32 development boards, you must compile the firmware directly using the Arduino IDE to ensure compatibility.
 
-**Option A: Flash Pre-Compiled `.bin` (Easiest)**
-1. Download the pre-compiled `.bin` file from the latest **Releases** tab.
-2. Head over to an online ESP Web Flasher tool (like [Adafruit Web Flasher](https://adafruit.github.io/Adafruit_WebSerial_ESPTool/)).
-3. Connect your ESP32 via USB and click Connect in your browser.
-4. Select the downloaded `.bin` file and flash it!
-
-**Option B: Compile and Flash (For Developers)**
 1. Open the Arduino IDE.
 2. Load the `.ino` firmware located in the `Arduino Files/ESP32` folder.
-3. Select your specific ESP32 board and COM port.
-4. Click **Upload** to compile and flash the firmware.
+3. Select your specific ESP32 board and double-check your pin configurations if necessary.
+4. Select your board's COM port.
+5. Click **Upload** to compile and flash the firmware.
 
 ### 2. Software Setup (Windows)
 You can run the application directly from the executable or build it yourself from the source.
@@ -63,7 +57,7 @@ You can run the application directly from the executable or build it yourself fr
 **Option B: Building from Source**
 1. Clone this repository to your local machine:
    ```bash
-   git clone https://github.com/yourusername/ESP32_HardwareMonitor.git
+   git clone https://github.com/RD-MN/ESP32_HardwareMonitor.git
    ```
 2. Run `Software\BuildExec.bat`. This script will seamlessly compile the Python source code (`LHMToSerial.py`) into a standalone `ESP32 Hardware Monitor.exe` using PyInstaller.
 3. Run the newly created executable located in the `Software\ESP32 HWM` directory.

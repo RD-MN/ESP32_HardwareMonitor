@@ -1,0 +1,8 @@
+LibreHardwareMonitor is licensed under the Mozilla Public License 2.0 (MPL-2.0).
+
+This software integrates components from LibreHardwareMonitor. 
+The original source code for LibreHardwareMonitor is available at:
+https://github.com/LibreHardwareMonitor/LibreHardwareMonitor
+
+The full text of the Mozilla Public License 2.0 can be found at:
+https://mozilla.org/MPL/2.0/
