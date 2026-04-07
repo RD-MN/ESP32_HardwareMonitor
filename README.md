@@ -9,6 +9,9 @@
 
 <br>
 
+> **👋 Welcome!** This is my very first major programming project. I built this to learn, solve a personal problem, and hopefully share something cool with the community. Any feedback, suggestions, and pull requests are highly encouraged and appreciated!
+<br>
+
 A highly responsive, standalone ecosystem for monitoring PC hardware vitals directly through an ESP32 TFT screen. Keep track of your system's essential metrics—Temperatures, Wattage, Load, RPMs, and FPS—in real-time without taking up valuable monitor space.
 
 This project seamlessly bridges your PC hardware sensors with your external ESP32 screen using a lightweight, native, background Windows agent and robust Serial-over-USB communication.
@@ -67,7 +70,6 @@ You can install the application using the user-friendly setup wizard, run it as 
    git clone https://github.com/RD-MN/ESP32_HardwareMonitor.git
    ```
 2. Run `Software\BuildExec.bat`. This script will seamlessly compile the Python source code (`LHMToSerial.py`) into a standalone `ESP32 Hardware Monitor.exe` using PyInstaller.
-3. *(Optional)* Run `Software\BuildInstaller.bat` to package the executable into a setup wizard (requires [Inno Setup 6](https://jrsoftware.org/isinfo.php)).
 
 ## 🚀 Usage
 
