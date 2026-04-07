@@ -104,4 +104,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor) - [Mozilla Public License 2.0 (MPL-2.0)](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor/blob/master/LICENSE)
 - [LVGL](https://lvgl.io/) - [MIT License](https://github.com/lvgl/lvgl/blob/master/LICENCE.txt)
-- [Arduino Core Packages](https://www.arduino.cc/) - LGPL
+- [Arduino Core Packages](https://www.arduino.cc/) - [LGPL](https://www.gnu.org/licenses/lgpl-2.1.html)
