@@ -9,3 +9,5 @@ ESP32 HWM/
 Software/__pycache__/
 Software/ESP32 HWM
 Software/Installer Output/
+Release_Output/
+Software/BuildFullRelease.bat

@@ -40,11 +40,12 @@ Before you begin, ensure you have the following installed and set up:
 
 Due to the varying pinout configurations across different ESP32 development boards, you must compile the firmware directly using the Arduino IDE to ensure compatibility.
 
-1. Open the Arduino IDE.
-2. Load the `.ino` firmware located in the `Arduino Files/ESP32` folder.
-3. Select your specific ESP32 board and double-check your pin configurations if necessary.
-4. Select your board's COM port.
-5. Click **Upload** to compile and flash the firmware.
+1. Download **`ESP32_Firmware.zip`** from the latest **Releases** tab on GitHub and extract it. (Alternatively, you can clone or download this repository's source code).
+2. Open the Arduino IDE.
+3. Load the `.ino` firmware located in the extracted `ESP32` folder.
+4. Select your specific ESP32 board and double-check your pin configurations if necessary.
+5. Select your board's COM port.
+6. Click **Upload** to compile and flash the firmware.
 
 ### 2. Software Setup (Windows)
 You can install the application using the user-friendly setup wizard, run it as a portable executable, or build it yourself from the source.
