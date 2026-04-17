@@ -12,6 +12,12 @@
 > **👋 Welcome!** This is my very first major programming project. I built this to learn, solve a personal problem, and hopefully share something cool with the community. Any feedback, suggestions, and pull requests are highly encouraged and appreciated!
 <br>
 
+<div align="center">
+  <img src="assets/preview.jpg" alt="ESP32 Hardware Monitor Presentation" width="650"/>
+</div>
+
+<br>
+
 A highly responsive, standalone ecosystem for monitoring PC hardware vitals directly through an ESP32 TFT screen. Keep track of your system's essential metrics—Temperatures, Wattage, Load, RPMs, and FPS—in real-time without taking up valuable monitor space.
 
 This project seamlessly bridges your PC hardware sensors with your external ESP32 screen using a lightweight, native, background Windows agent and robust Serial-over-USB communication.
