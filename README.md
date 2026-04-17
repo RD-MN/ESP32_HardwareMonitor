@@ -7,6 +7,8 @@
   <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="License Badge"/>
 </div>
 
+<p align="center">🌐 <b><a href="README.md">English</a> | <a href="README_es.md">Español</a></b></p>
+
 <br>
 
 > **👋 Welcome!** This is my very first major programming project. I built this to learn, solve a personal problem, and hopefully share something cool with the community. Any feedback, suggestions, and pull requests are highly encouraged and appreciated!
