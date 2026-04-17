@@ -13,6 +13,19 @@
 <br>
 
 <div align="center">
+  <img src="assets/Data.jpg" alt="Screen Layout Data" width="650"/>
+</div>
+
+### 📊 Display Layout Details
+
+The screen interface is structured into **Fixed** and **Modifiable** components to provide a consistent but deeply customizable experience:
+
+- 🟢 **Fixed Components:** Everything from the CPU and GPU Wattage (W) and above is permanently mapped. This includes the CPU & GPU Temperatures, FPS Counter, CPU & GPU Load gauges, and the CPU/GPU Wattage limits. The **Real-Time Clock** at the bottom right is also fixed.
+- 🛠️ **Modifiable Slots:** The text display slots located *below* the CPU and GPU Wattage (with the exception of the clock) are fully customizable! You can map these 6 slots to display any LHM hardware sensor data you desire (like RAM, VRAM, Case Fan RPMs, or Network speeds) using the Configurator App.
+
+<br>
+
+<div align="center">
   <img src="assets/preview.jpg" alt="ESP32 Hardware Monitor Presentation" width="650"/>
 </div>
 
